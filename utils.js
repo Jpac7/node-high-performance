@@ -1,6 +1,6 @@
 'use strict'
 
-require('events').defaultMaxListeners = Infinity
+//require('events').defaultMaxListeners = Infinity
 const crypto = require('crypto')
 
 module.exports = () => {
@@ -20,7 +20,7 @@ module.exports = () => {
         function attachAfterEvent (server) {
             if (afterEventAttached === true) return;
             afterEventAttached = true
-            server.on('after', (req, res) => {
+            server.on('after', (req, res) => {                
                 if (res.statusCode !== 200) return;
                 if (!res._body) return;
                 const key = crypto.createHash('sha512')
@@ -31,7 +31,7 @@ module.exports = () => {
                     .update(JSON.stringify(res._body))
                     .digest()
                     .toString('hex')
-                if (cache[key] !== etag) cache[key] = etag
+                if (cache[key] !== etag) cache[key] = etag                
             })
         }
         return function (req, res, next) {

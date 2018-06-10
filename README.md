@@ -1,2 +1,3 @@
 # node-high-performance
-Making node high performant by identifying bottlenecks
+Making node high performant by identifying and fixing bottlenecks before deployment
+

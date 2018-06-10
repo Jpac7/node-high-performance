@@ -1,10 +1,10 @@
 'use strict'
 
 const restify = require('restify')
-const { etagger, timestamp, fetchContent } = require('./util')
+const { etagger, timestamp, fetchContent } = require('./utils')()
 const server = restify.createServer()
 
-server.use(ettager().bind(server))
+server.use(etagger().bind(server))
 
 server.get('/book/first', function(req, res, next) {
     fetchContent(req.url, (err, content) => {
@@ -14,4 +14,6 @@ server.get('/book/first', function(req, res, next) {
     })
 })
 
-server.listen(8080)
+server.listen(8080, () => {
+    console.log('%s listening at %s', server.name, server.url);
+})
