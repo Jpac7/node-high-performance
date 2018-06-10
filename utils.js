@@ -23,28 +23,18 @@ module.exports = () => {
             server.on('after', (req, res) => {                
                 if (res.statusCode !== 200) return;
                 if (!res._body) return;
-                const key = crypto.createHash('sha512')
-                    .update(req.url)
-                    .digest()
-                    .toString('hex')
-                const etag = crypto.createHash('sha512')
-                    .update(JSON.stringify(res._body))
-                    .digest()
-                    .toString('hex')
+                const key = req.url
+                const etag = req.id()                
                 if (cache[key] !== etag) cache[key] = etag                
             })
         }
         return function (req, res, next) {
             attachAfterEvent(this)
-            const key = crypto.createHash('sha512')
-                .update(req.url)
-                .digest
-                .toString('hex')
+            const key = req.url
             if (key in cache) res.set('Etag', cache[key])
             res.set('Cache-Control', 'public, max-age=120')
             next()
         }
-
     }
 
     function fetchContent(url, cb) {

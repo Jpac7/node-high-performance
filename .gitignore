@@ -1,4 +1,4 @@
 node_modules/
-resources/
+isolate*
 *clinic-doctor*
 *clinic-flame*

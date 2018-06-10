@@ -9,7 +9,9 @@ server.use(etagger().bind(server))
 server.get('/book/first', function(req, res, next) {
     fetchContent(req.url, (err, content) => {
         if (err) return next(err)
-        res.send({data: content, url: req.url, ts: timestamp()})
+        const ts = timestamp()
+        req.id(ts.toString())
+        res.send(`{"data": ${content}, "url": ${req.url}, "ts": ${ts}}`)
         next()
     })
 })
